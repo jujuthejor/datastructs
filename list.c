@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Jose Gabriel Ramos (@jujuthejor)
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -19,7 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-// TODO: delete and get utilities
+// DONE: get utility
+// DONE: delete utility
 // TODO: Improve error reports/handling
 // TODO: sizeOfList() might be better off returning size_t
 #include<stdio.h>
@@ -120,6 +121,58 @@ int insertIntoList(List **plist, int index, int value)
 		}
 	}
 
+	return 0;
+}
+
+int getFromList(List **plist, int index)
+{
+	Node *currentNode;
+
+	if(index >= sizeofList(plist)){
+		printf("index out of bounds\n");
+		exit(EXIT_FAILURE);
+	}
+
+	currentNode = (*plist)->head;
+
+	int i = 0;
+	while(i != index) {
+		currentNode = currentNode->next;
+		i++;
+	}
+
+	return currentNode->value;
+}
+
+int deleteFromList(List **plist, int index)
+{
+	Node *currentNode, *prevNode;
+
+	if(index >= sizeofList(plist)){
+		printf("index out of bounds\n");
+		return -1;
+	}
+
+	prevNode = NULL;
+	currentNode = (*plist)->head;
+
+	int i = 0;
+	while(i != index) {
+		prevNode = currentNode;
+		currentNode = currentNode->next;
+		i++;
+	}
+
+	if(i == 0) {
+		(*plist)->head = currentNode->next;
+	} else if (i == sizeofList(plist) - 1) {
+		(*plist)->tail = prevNode;
+		(*plist)->tail->next = NULL;
+	} else {
+		prevNode->next = currentNode->next;
+	}
+
+	free(currentNode);
 	return 0;
 }
 

@@ -1,8 +1,8 @@
 CC=gcc
-CFLAGS=-Wall -std=c99 -pedantic
+CFLAGS=-Wall -Wextra -Werror -std=c99 -pedantic
 TARGET=datastructs
 
-ifeq ($(OS), Windows_NT)	
+ifeq ($(OS), Windows_NT)
 	RM=del /Q /S
 else
 	RM=rm -r
