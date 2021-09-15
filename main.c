@@ -20,16 +20,50 @@
  * SOFTWARE.
  */
 #include<stdio.h>
+#include<stdlib.h>
 
 #include "list.h"
+#include "stack.h"
+
+void test_list();
 
 int main(void)
 {
-	List *testList ;
+	Stack *testStack;
+	if(initStack(&testStack)) {
+		printf("Somthing's wrong...\n");
+		exit(EXIT_FAILURE);
+	}
+
+	printf("Size of stack: %d\n", sizeOfStack(&testStack));
+	if (isEmptyStack(&testStack)) {
+		printf("Stack is empty\n");
+	}
+	printf("Pushing elements to stack...\n");
+	pushStack(&testStack, 69);
+	pushStack(&testStack, 420);
+	printf("Size of stack right now: %d\n", sizeOfStack(&testStack));
+	printf("Stack peek: %d\nDeleting...\n", peekStack(&testStack));
+	popStack(&testStack);
+	printf("Size of stack right now: %d\n", sizeOfStack(&testStack));
+	printf("Stack peek: %d\n", peekStack(&testStack));
+	if (isEmptyStack(&testStack)) {
+		printf("Stack is empty\n");
+	}
+
+	freeStack(&testStack);
+	return 0;
+}
+
+void test_list()
+{
+	List *testList;
 	if(initList(&testList)) {
 		printf("Something's wrong...\n");
-		return -1;
+		exit(EXIT_FAILURE);
 	}
+
+	printf("Size of list: %d\n", sizeofList(&testList));
 
 	addToList(&testList, 69);
 	addToList(&testList, 420);
@@ -69,6 +103,4 @@ int main(void)
 	printList(&testList);
 
 	freeList(&testList);
-
-	return 0;
 }
