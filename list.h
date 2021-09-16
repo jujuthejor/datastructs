@@ -30,7 +30,7 @@ int initList(List **plist);
 
 int addToList(List **plist, int value);
 
-int sizeofList(List** plist);
+size_t sizeofList(List** plist);
 
 int insertIntoList(List **plist, int index, int value);
 

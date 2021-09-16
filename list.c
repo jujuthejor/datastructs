@@ -19,10 +19,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-// DONE: get utility
-// DONE: delete utility
-// TODO: Improve error reports/handling
-// TODO: sizeOfList() might be better off returning size_t
+// TODO: Improve error reports/handling; might want to exit on an error in some cases
+// 		 instead of returning -1...
+#include <stddef.h>
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -36,22 +35,24 @@ struct node_t {
 struct list {
 	Node *head;			// first item in list
 	Node *tail;			// last item in list
+	size_t size;
 };
 
-int initList(List **plist)
+int initList(List **listptr)
 {
-	*plist = malloc(sizeof(List));
+	*listptr = malloc(sizeof(List));
 
-	if (plist == NULL) {
+	if (listptr == NULL) {
 		return -1;
 	} else {
-		(*plist)->head = NULL;
-		(*plist)->tail = NULL;
+		(*listptr)->size = 0;
+		(*listptr)->head = NULL;
+		(*listptr)->tail = NULL;
 		return 0;
 	}
 }
 
-int addToList(List **plist, int value)
+int addToList(List **listptr, int value)
 {
 	Node *newNode = malloc(sizeof(Node));
 
@@ -59,36 +60,30 @@ int addToList(List **plist, int value)
 		return -1;
 	} else {
 		newNode->value = value;
-		newNode->next = NULL;
-		if ((*plist)->head == NULL){
-			(*plist)->head = newNode;
-			(*plist)->tail = newNode;
+		if ((*listptr)->head == NULL){
+			(*listptr)->head = newNode;
+			(*listptr)->tail = newNode;
 		} else {
-			(*plist)->tail->next = newNode;
-			(*plist)->tail = newNode;
+			(*listptr)->tail->next = newNode;
+			(*listptr)->tail = newNode;
 		}
+		newNode->next = NULL;
+		(*listptr)->size++;
 		return 0;
 	}
 }
 
-int sizeofList(List** plist){
-	int count = 0;
-	Node *currentNode = (*plist)->head;
-
-	while(currentNode != NULL) {
-		count++;
-		currentNode = currentNode->next;
-	}
-	return count;
+size_t sizeofList(List** listptr){
+	return (*listptr)->size;
 }
 
-int insertIntoList(List **plist, int index, int value)
+int insertIntoList(List **listptr, int index, int value)
 {
 	Node *prevNode, *currentNode, *newItem;
 
-	if(index >= sizeofList(plist)){
-		printf("index out of bounds\n");
-		return -1;
+	if((size_t)index >= sizeofList(listptr)){
+		printf("insertIntoList error: index out of bounds\n");
+		exit(EXIT_FAILURE);
 	}
 
 	newItem = malloc(sizeof(Node));
@@ -100,7 +95,7 @@ int insertIntoList(List **plist, int index, int value)
 	newItem->next = NULL;
 
 	prevNode = NULL;
-	currentNode = (*plist)->head;
+	currentNode = (*listptr)->head;
 
 	int i = 0;
 	while(i != index) {
@@ -111,29 +106,35 @@ int insertIntoList(List **plist, int index, int value)
 
 	if(i == 0) {
 		newItem->next = currentNode;
-		(*plist)->head = newItem;
+		(*listptr)->head = newItem;
 	} else {
 		prevNode->next = newItem;
 		newItem->next = currentNode;
 
-		if(i == sizeofList(plist) - 1) {
-			(*plist)->tail = newItem;
-		}
+//		if((size_t)i == sizeofList(listptr) - 1) {
+//			(*listptr)->tail = newItem;
+//		}
 	}
+	(*listptr)->size++;
 
 	return 0;
 }
 
-int getFromList(List **plist, int index)
+int getFromList(List **listptr, int index)
 {
 	Node *currentNode;
 
-	if(index >= sizeofList(plist)){
-		printf("index out of bounds\n");
+	if(sizeofList(listptr) == 0) {
+		printf("getFromList error: list empty");
 		exit(EXIT_FAILURE);
 	}
 
-	currentNode = (*plist)->head;
+	if((size_t)index >= sizeofList(listptr)){
+		printf("getFromList error: index out of bounds\n");
+		exit(EXIT_FAILURE);
+	}
+
+	currentNode = (*listptr)->head;
 
 	int i = 0;
 	while(i != index) {
@@ -144,17 +145,22 @@ int getFromList(List **plist, int index)
 	return currentNode->value;
 }
 
-int deleteFromList(List **plist, int index)
+int deleteFromList(List **listptr, int index)
 {
 	Node *currentNode, *prevNode;
 
-	if(index >= sizeofList(plist)){
-		printf("index out of bounds\n");
-		return -1;
+	if(sizeofList(listptr) == 0) {
+		printf("deleteFromList error: list empty");
+		exit(EXIT_FAILURE);
+	}
+
+	if((size_t)index >= sizeofList(listptr)){
+		printf("deleteFromList error: index out of bounds\n");
+		exit(EXIT_FAILURE);
 	}
 
 	prevNode = NULL;
-	currentNode = (*plist)->head;
+	currentNode = (*listptr)->head;
 
 	int i = 0;
 	while(i != index) {
@@ -164,21 +170,22 @@ int deleteFromList(List **plist, int index)
 	}
 
 	if(i == 0) {
-		(*plist)->head = currentNode->next;
-	} else if (i == sizeofList(plist) - 1) {
-		(*plist)->tail = prevNode;
-		(*plist)->tail->next = NULL;
+		(*listptr)->head = currentNode->next;
+	} else if ((size_t)i == sizeofList(listptr) - 1) {
+		(*listptr)->tail = prevNode;
+		(*listptr)->tail->next = NULL;
 	} else {
 		prevNode->next = currentNode->next;
 	}
 
 	free(currentNode);
+	(*listptr)->size--;
 	return 0;
 }
 
-void printList(List **plist)
+void printList(List **listptr)
 {
-	Node *traverse = (*plist)->head;
+	Node *traverse = (*listptr)->head;
 	while(traverse != NULL) {
 		printf("%d\t", traverse->value);
 		traverse = traverse->next;
@@ -186,18 +193,12 @@ void printList(List **plist)
 	printf("\n");
 }
 
-void freeList(List **plist)
+void freeList(List **listptr)
 {
-	Node *target, *next;
-
-	target = (*plist)->head;
-	next = target->next;
-
-	while(target != NULL) {
-		free(target);
-		target = next;
-		if (target != NULL) {
-			next = target->next;
-		}
+	while(sizeofList(listptr) != 0) {
+		printf("free memory holding value %d\n", getFromList(listptr, 0));
+		deleteFromList(listptr, 0);
+		printf("freed\n");
 	}
+	free(*listptr);
 }
