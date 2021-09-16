@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror -std=c99 -pedantic
+CFLAGS=-g -Og -Wall -Wextra -Werror -std=c99 -pedantic
 TARGET=datastructs
 
 ifeq ($(OS), Windows_NT)
