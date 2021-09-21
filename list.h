@@ -26,19 +26,19 @@ typedef struct node_t Node;
 
 typedef struct list List;
 
-int initList(List **plist);
+List* initList(void);
 
-int addToList(List **plist, int value);
+int addToList(List *listptr, int value);
 
-size_t sizeofList(List** plist);
+size_t sizeofList(List *listptr);
 
-int insertIntoList(List **plist, int index, int value);
+int insertIntoList(List *listptr, int index, int value);
 
-int deleteFromList(List **plist, int index);
+int deleteFromList(List *listptr, int index);
 
-int getFromList(List **plist, int index);
+int getFromList(List *listptr, int index);
 
-void printList(List **plist);
+void printList(List *listptr);
 
-void freeList(List **plist);
+void freeList(List *listptr);
 #endif

@@ -34,8 +34,8 @@ void test_stack();
 
 int main(void)
 {
-	//test_list();
-	test_stack();
+	test_list();
+	//test_stack();
 	return 0;
 }
 
@@ -86,58 +86,58 @@ void test_stack()
 
 void test_list()
 {
-	List *testList;
-	if(initList(&testList)) {
+	List *testList = initList();
+	if(testList == NULL) {
 		printf("Something's wrong...\n");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Size of list: %zu\n", sizeofList(&testList));
+	printf("Size of list: %zu\n", sizeofList(testList));
 
-	addToList(&testList, 69);
-	addToList(&testList, 420);
-	addToList(&testList, 86);
-	addToList(&testList, 39);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
+	addToList(testList, 69);
+	addToList(testList, 420);
+	addToList(testList, 86);
+	addToList(testList, 39);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
 
-	insertIntoList(&testList, 3, 33);
-	insertIntoList(&testList, 0, 44);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
+	insertIntoList(testList, 3, 33);
+	insertIntoList(testList, 0, 44);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
 
-	insertIntoList(&testList, 5, 58008);
-	insertIntoList(&testList, 6, 1337);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
+	insertIntoList(testList, 5, 58008);
+	insertIntoList(testList, 6, 1337);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
 
 	int in_index = 0;
 	do {
 		printf("Enter index (-1 to finish): ");
 		(void) !scanf("%d", &in_index); 															// typecast to void so -Wunused-result won't happen
-		if(in_index >= 0 && (size_t)in_index < sizeofList(&testList)) {
-			printf("Value at index %d is: %d\n", in_index, getFromList(&testList, in_index));
-		} else if (in_index >= (int)sizeofList(&testList)){
+		if(in_index >= 0 && (size_t)in_index < sizeofList(testList)) {
+			printf("Value at index %d is: %d\n", in_index, getFromList(testList, in_index));
+		} else if (in_index >= (int)sizeofList(testList)){
 			printf("Please enter a value within the valid range\n");
 		}
 	} while(in_index >= 0);
-//	getFromList(&testList, 100);	// this is intentionally an error
+//	getFromList(testList, 100);	// this is intentionally an error
 
-	printList(&testList);
-	deleteFromList(&testList, 4);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
-	deleteFromList(&testList, 0);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
-	deleteFromList(&testList, sizeofList(&testList)-1);
-	printList(&testList);
-	printf("Size of list: %zu\n", sizeofList(&testList));
+	printList(testList);
+	deleteFromList(testList, 4);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
+	deleteFromList(testList, 0);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
+	deleteFromList(testList, sizeofList(testList)-1);
+	printList(testList);
+	printf("Size of list: %zu\n", sizeofList(testList));
 
-	while(sizeofList(&testList) != 0) {
-		deleteFromList(&testList, 0);
-		printList(&testList);
-		printf("Size of list: %zu\n", sizeofList(&testList));
+	while(sizeofList(testList) != 0) {
+		deleteFromList(testList, 0);
+		printList(testList);
+		printf("Size of list: %zu\n", sizeofList(testList));
 	}
-	freeList(&testList);
+	freeList(testList);
 }

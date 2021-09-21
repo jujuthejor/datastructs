@@ -38,21 +38,20 @@ struct list {
 	size_t size;
 };
 
-int initList(List **listptr)
+List* initList(void)
 {
-	*listptr = malloc(sizeof(List));
+	List *listptr = malloc(sizeof(List));
 
-	if (listptr == NULL) {
-		return -1;
-	} else {
-		(*listptr)->size = 0;
-		(*listptr)->head = NULL;
-		(*listptr)->tail = NULL;
-		return 0;
+	if (listptr != NULL) {
+		listptr->size = 0;
+		listptr->head = NULL;
+		listptr->tail = NULL;
 	}
+
+	return listptr;
 }
 
-int addToList(List **listptr, int value)
+int addToList(List *listptr, int value)
 {
 	Node *newNode = malloc(sizeof(Node));
 
@@ -60,24 +59,24 @@ int addToList(List **listptr, int value)
 		return -1;
 	} else {
 		newNode->value = value;
-		if ((*listptr)->head == NULL){
-			(*listptr)->head = newNode;
-			(*listptr)->tail = newNode;
+		if (listptr->head == NULL){
+			listptr->head = newNode;
+			listptr->tail = newNode;
 		} else {
-			(*listptr)->tail->next = newNode;
-			(*listptr)->tail = newNode;
+			listptr->tail->next = newNode;
+			listptr->tail = newNode;
 		}
 		newNode->next = NULL;
-		(*listptr)->size++;
+		listptr->size++;
 		return 0;
 	}
 }
 
-size_t sizeofList(List** listptr){
-	return (*listptr)->size;
+size_t sizeofList(List* listptr){
+	return listptr->size;
 }
 
-int insertIntoList(List **listptr, int index, int value)
+int insertIntoList(List *listptr, int index, int value)
 {
 	Node *prevNode, *currentNode, *newItem;
 
@@ -95,7 +94,7 @@ int insertIntoList(List **listptr, int index, int value)
 	newItem->next = NULL;
 
 	prevNode = NULL;
-	currentNode = (*listptr)->head;
+	currentNode = listptr->head;
 
 	int i = 0;
 	while(i != index) {
@@ -106,21 +105,21 @@ int insertIntoList(List **listptr, int index, int value)
 
 	if(i == 0) {
 		newItem->next = currentNode;
-		(*listptr)->head = newItem;
+		listptr->head = newItem;
 	} else {
 		prevNode->next = newItem;
 		newItem->next = currentNode;
 
 //		if((size_t)i == sizeofList(listptr) - 1) {
-//			(*listptr)->tail = newItem;
+//			listptr->tail = newItem;
 //		}
 	}
-	(*listptr)->size++;
+	listptr->size++;
 
 	return 0;
 }
 
-int getFromList(List **listptr, int index)
+int getFromList(List *listptr, int index)
 {
 	Node *currentNode;
 
@@ -134,7 +133,7 @@ int getFromList(List **listptr, int index)
 		exit(EXIT_FAILURE);
 	}
 
-	currentNode = (*listptr)->head;
+	currentNode = listptr->head;
 
 	int i = 0;
 	while(i != index) {
@@ -145,7 +144,7 @@ int getFromList(List **listptr, int index)
 	return currentNode->value;
 }
 
-int deleteFromList(List **listptr, int index)
+int deleteFromList(List *listptr, int index)
 {
 	Node *currentNode, *prevNode;
 
@@ -160,7 +159,7 @@ int deleteFromList(List **listptr, int index)
 	}
 
 	prevNode = NULL;
-	currentNode = (*listptr)->head;
+	currentNode = listptr->head;
 
 	int i = 0;
 	while(i != index) {
@@ -170,22 +169,22 @@ int deleteFromList(List **listptr, int index)
 	}
 
 	if(i == 0) {
-		(*listptr)->head = currentNode->next;
+		listptr->head = currentNode->next;
 	} else if ((size_t)i == sizeofList(listptr) - 1) {
-		(*listptr)->tail = prevNode;
-		(*listptr)->tail->next = NULL;
+		listptr->tail = prevNode;
+		listptr->tail->next = NULL;
 	} else {
 		prevNode->next = currentNode->next;
 	}
 
 	free(currentNode);
-	(*listptr)->size--;
+	listptr->size--;
 	return 0;
 }
 
-void printList(List **listptr)
+void printList(List *listptr)
 {
-	Node *traverse = (*listptr)->head;
+	Node *traverse = listptr->head;
 	while(traverse != NULL) {
 		printf("%d\t", traverse->value);
 		traverse = traverse->next;
@@ -193,12 +192,12 @@ void printList(List **listptr)
 	printf("\n");
 }
 
-void freeList(List **listptr)
+void freeList(List *listptr)
 {
 	while(sizeofList(listptr) != 0) {
 		printf("free memory holding value %d\n", getFromList(listptr, 0));
 		deleteFromList(listptr, 0);
 		printf("freed\n");
 	}
-	free(*listptr);
+	free(listptr);
 }
