@@ -26,17 +26,17 @@
 
 typedef struct stack Stack;
 
-int initStack(Stack **stackptr);
+Stack* initStack(void);
 
-size_t sizeOfStack(Stack **stackptr);
+size_t sizeOfStack(Stack *stackptr);
 
-int pushStack(Stack **stackptr, int value);
+int pushStack(Stack *stackptr, int value);
 
-int peekStack(Stack **stackptr);
+int peekStack(Stack *stackptr);
 
-void popStack(Stack **stackptr);
+void popStack(Stack *stackptr);
 
-bool isEmptyStack(Stack **stackptr);
+bool isEmptyStack(Stack *stackptr);
 
-void freeStack(Stack **stackptr);
+void freeStack(Stack *stackptr);
 #endif

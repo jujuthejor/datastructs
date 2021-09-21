@@ -34,45 +34,54 @@ void test_stack();
 
 int main(void)
 {
-	test_list();
-	//test_stack();
+	//test_list();
+	test_stack();
 	return 0;
 }
 
 void test_stack()
 {
-	Stack *testStack;
-	if(initStack(&testStack)) {
+	Stack *testStack = initStack();
+	if(testStack == NULL) {
 		printf("Somthing's wrong...\n");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Size of stack: %zu\n", sizeOfStack(&testStack));
-	if (isEmptyStack(&testStack)) {
+	printf("Size of stack: %zu\n", sizeOfStack(testStack));
+	if (isEmptyStack(testStack)) {
 		printf("Stack is empty\n");
 	}
 	printf("Pushing elements to stack...\n");
-	pushStack(&testStack, 69);
-	pushStack(&testStack, 420);
-	pushStack(&testStack, 3);
-	pushStack(&testStack, 4);
-	pushStack(&testStack, 77);
+	pushStack(testStack, 69);
+	pushStack(testStack, 420);
+	pushStack(testStack, 3);
+	pushStack(testStack, 4);
+	pushStack(testStack, 77);
+	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
 
-	while(!isEmptyStack(&testStack)) {
-		printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(&testStack));
-		printf("Stack peek: %d\nDeleting...\n", peekStack(&testStack));
-		if (!isEmptyStack(&testStack)) {
-			popStack(&testStack);
+//	printf("Freeing and reinitializing the stack...\n");
+//	freeStack(testStack);
+//	testStack = initStack();
+//	if(testStack == NULL) {
+//		printf("Something's wrong...\n");
+//		exit(EXIT_FAILURE);
+//	}
+
+	while(!isEmptyStack(testStack)) {
+		printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
+		printf("Stack peek: %d\nDeleting...\n", peekStack(testStack));
+		if (!isEmptyStack(testStack)) {
+			popStack(testStack);
 		}
 	}
 
-	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(&testStack));
+	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
 
-	if (isEmptyStack(&testStack)) {
+	if (isEmptyStack(testStack)) {
 		printf("Stack is empty\n");
 	}
 
-	freeStack(&testStack);
+	freeStack(testStack);
 }
 
 void test_list()
