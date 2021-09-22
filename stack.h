@@ -30,9 +30,9 @@ Stack* initStack(void);
 
 size_t sizeOfStack(Stack *stackptr);
 
-int pushStack(Stack *stackptr, int value);
+int pushStack(Stack *stackptr, void *value);
 
-int peekStack(Stack *stackptr);
+void* peekStack(Stack *stackptr);
 
 void popStack(Stack *stackptr);
 

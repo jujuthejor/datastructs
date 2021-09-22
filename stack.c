@@ -25,7 +25,7 @@
 #include "stack.h"
 
 struct st_node {
-	int value;
+	void *value;
 	struct st_node *next;
 };
 
@@ -52,9 +52,8 @@ size_t sizeOfStack(Stack *stackptr)
 	return stackptr->size;
 }
 
-int pushStack(Stack *stackptr, int value)
+int pushStack(Stack *stackptr, void *value)
 {
-	struct st_node *traverse = stackptr->head;
 	struct st_node *newElement = malloc(sizeof(struct st_node));
 
 	if(newElement == NULL) {
@@ -64,22 +63,19 @@ int pushStack(Stack *stackptr, int value)
 	newElement->value = value;
 	newElement->next = NULL;
 
-	if (traverse == NULL) {
+	if (stackptr->head == NULL) {
 		stackptr->head = newElement;
 	} else {
-		while (traverse->next != NULL) {
-			traverse = traverse->next;
-		}
-		traverse->next = newElement;
+		stackptr->tail->next = newElement;
 	}
-
 	stackptr->tail = newElement;
+
 	stackptr->size++;
 
 	return 0;
 }
 
-int peekStack(Stack *stackptr)
+void* peekStack(Stack *stackptr)
 {
 	if(isEmptyStack(stackptr)) {
 		printf("Error: stack empty\n");
@@ -124,32 +120,11 @@ bool isEmptyStack(Stack *stackptr)
 	}
 }
 
-void printStack(Stack *stackptr)
-{
-	struct st_node *traverse = stackptr->head;
-
-	if(traverse->next != NULL) {
-		return;
-	}
-
-	traverse = traverse->next;
-	while(traverse->next != NULL) {
-		printf("%d\t", traverse->value);
-	}
-	printf("\n");
-}
-
 void freeStack(Stack *stackptr)
 {
-//	struct st_node *traverse = (*stackptr)->head;
-//	struct st_node *target = traverse;
-
-//	if (traverse != NULL) {
-//		while (traverse->next != NULL) {
-		while (!isEmptyStack(stackptr)) {
-			popStack(stackptr);
-		}
-//	}
+	while (!isEmptyStack(stackptr)) {
+		popStack(stackptr);
+	}
 
 	free(stackptr);
 }

@@ -34,8 +34,8 @@ void test_stack();
 
 int main(void)
 {
-	test_list();
-	//test_stack();
+	//test_list();
+	test_stack();
 	return 0;
 }
 
@@ -52,11 +52,11 @@ void test_stack()
 		printf("Stack is empty\n");
 	}
 	printf("Pushing elements to stack...\n");
-	pushStack(testStack, 69);
-	pushStack(testStack, 420);
-	pushStack(testStack, 3);
-	pushStack(testStack, 4);
-	pushStack(testStack, 77);
+	pushStack(testStack, &(int){69});
+	pushStack(testStack, &(int){420});
+	pushStack(testStack, &(int){3});
+	pushStack(testStack, &(int){4});
+	pushStack(testStack, &(int){77});
 	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
 
 //	printf("Freeing and reinitializing the stack...\n");
@@ -69,7 +69,7 @@ void test_stack()
 
 	while(!isEmptyStack(testStack)) {
 		printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
-		printf("Stack peek: %d\nDeleting...\n", peekStack(testStack));
+		printf("Stack peek: %d\nDeleting...\n", *(int *)peekStack(testStack));
 		if (!isEmptyStack(testStack)) {
 			popStack(testStack);
 		}
