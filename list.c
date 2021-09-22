@@ -33,8 +33,8 @@ struct node_t {
 };
 
 struct list {
-	Node *head;			// first item in list
-	Node *tail;			// last item in list
+	Node *head;
+	Node *tail;
 	size_t size;
 };
 
@@ -110,9 +110,6 @@ int insertIntoList(List *listptr, int index, int value)
 		prevNode->next = newItem;
 		newItem->next = currentNode;
 
-//		if((size_t)i == sizeofList(listptr) - 1) {
-//			listptr->tail = newItem;
-//		}
 	}
 	listptr->size++;
 
