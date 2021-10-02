@@ -34,7 +34,7 @@ struct stack {
 	size_t size;
 };
 
-Stack* initStack(void)
+Stack* stack_new(void)
 {
 	Stack *stackptr = malloc(sizeof(Stack));
 
@@ -47,12 +47,12 @@ Stack* initStack(void)
 	return stackptr;
 }
 
-size_t sizeOfStack(Stack *stackptr)
+size_t stack_sizeof(Stack *stackptr)
 {
 	return stackptr->size;
 }
 
-int pushStack(Stack *stackptr, void *value)
+int stack_push(Stack *stackptr, void *value)
 {
 	struct st_node *newElement = malloc(sizeof(struct st_node));
 
@@ -75,9 +75,9 @@ int pushStack(Stack *stackptr, void *value)
 	return 0;
 }
 
-void* peekStack(Stack *stackptr)
+void* stack_peek(Stack *stackptr)
 {
-	if(isEmptyStack(stackptr)) {
+	if(stack_isEmpty(stackptr)) {
 		printf("Error: stack empty\n");
 		exit(EXIT_FAILURE);
 	}
@@ -85,12 +85,12 @@ void* peekStack(Stack *stackptr)
 	return stackptr->tail->value;
 }
 
-void popStack(Stack *stackptr)
+void stack_pop(Stack *stackptr)
 {
 	struct st_node *traverse = stackptr->head;
 	struct st_node *newTail = NULL;
 
-	if(isEmptyStack(stackptr)) {
+	if(stack_isEmpty(stackptr)) {
 		printf("Error: stack empty\n");
 		exit(EXIT_FAILURE);
 	}
@@ -111,7 +111,7 @@ void popStack(Stack *stackptr)
 	stackptr->size--;
 }
 
-bool isEmptyStack(Stack *stackptr)
+bool stack_isEmpty(Stack *stackptr)
 {
 	if(stackptr->size == 0) {
 		return true;
@@ -120,10 +120,10 @@ bool isEmptyStack(Stack *stackptr)
 	}
 }
 
-void freeStack(Stack *stackptr)
+void stack_free(Stack *stackptr)
 {
-	while (!isEmptyStack(stackptr)) {
-		popStack(stackptr);
+	while (!stack_isEmpty(stackptr)) {
+		stack_pop(stackptr);
 	}
 
 	free(stackptr);

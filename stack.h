@@ -23,20 +23,21 @@
 #define STACK_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 typedef struct stack Stack;
 
-Stack* initStack(void);
+Stack* stack_new(void);
 
-size_t sizeOfStack(Stack *stackptr);
+size_t stack_sizeof(Stack *stackptr);
 
-int pushStack(Stack *stackptr, void *value);
+int stack_push(Stack *stackptr, void *value);
 
-void* peekStack(Stack *stackptr);
+void* stack_peek(Stack *stackptr);
 
-void popStack(Stack *stackptr);
+void stack_pop(Stack *stackptr);
 
-bool isEmptyStack(Stack *stackptr);
+bool stack_isEmpty(Stack *stackptr);
 
-void freeStack(Stack *stackptr);
+void stack_free(Stack *stackptr);
 #endif

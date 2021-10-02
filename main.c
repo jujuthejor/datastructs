@@ -41,47 +41,47 @@ int main(void)
 
 void test_stack()
 {
-	Stack *testStack = initStack();
+	Stack *testStack = stack_new();
 	if(testStack == NULL) {
 		printf("Somthing's wrong...\n");
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Size of stack: %zu\n", sizeOfStack(testStack));
-	if (isEmptyStack(testStack)) {
+	printf("Size of stack: %zu\n", stack_sizeof(testStack));
+	if (stack_isEmpty(testStack)) {
 		printf("Stack is empty\n");
 	}
 	printf("Pushing elements to stack...\n");
-	pushStack(testStack, &(int){69});
-	pushStack(testStack, &(int){420});
-	pushStack(testStack, &(int){3});
-	pushStack(testStack, &(int){4});
-	pushStack(testStack, &(int){77});
-	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
+	stack_push(testStack, &(int){69});
+	stack_push(testStack, &(int){420});
+	stack_push(testStack, &(int){3});
+	stack_push(testStack, &(int){4});
+	stack_push(testStack, &(int){77});
+	printf("Size of stack right now: %zu\n", (size_t)stack_sizeof(testStack));
 
 //	printf("Freeing and reinitializing the stack...\n");
-//	freeStack(testStack);
-//	testStack = initStack();
+//	stack_free(testStack);
+//	testStack = stack_new();
 //	if(testStack == NULL) {
 //		printf("Something's wrong...\n");
 //		exit(EXIT_FAILURE);
 //	}
 
-	while(!isEmptyStack(testStack)) {
-		printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
-		printf("Stack peek: %d\nDeleting...\n", *(int *)peekStack(testStack));
-		if (!isEmptyStack(testStack)) {
-			popStack(testStack);
+	while(!stack_isEmpty(testStack)) {
+		printf("Size of stack right now: %zu\n", (size_t)stack_sizeof(testStack));
+		printf("Stack peek: %d\nDeleting...\n", *(int *)stack_peek(testStack));
+		if (!stack_isEmpty(testStack)) {
+			stack_pop(testStack);
 		}
 	}
 
-	printf("Size of stack right now: %zu\n", (size_t)sizeOfStack(testStack));
+	printf("Size of stack right now: %zu\n", (size_t)stack_sizeof(testStack));
 
-	if (isEmptyStack(testStack)) {
+	if (stack_isEmpty(testStack)) {
 		printf("Stack is empty\n");
 	}
 
-	freeStack(testStack);
+	stack_free(testStack);
 }
 
 void test_list()
