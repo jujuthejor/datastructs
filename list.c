@@ -38,7 +38,7 @@ struct list {
 	size_t size;
 };
 
-List* initList(void)
+List* list_new(void)
 {
 	List *listptr = malloc(sizeof(List));
 
@@ -51,7 +51,7 @@ List* initList(void)
 	return listptr;
 }
 
-int addToList(List *listptr, int value)
+int list_add(List *listptr, int value)
 {
 	Node *newNode = malloc(sizeof(Node));
 
@@ -72,16 +72,16 @@ int addToList(List *listptr, int value)
 	}
 }
 
-size_t sizeofList(List* listptr){
+size_t list_sizeof(List* listptr){
 	return listptr->size;
 }
 
-int insertIntoList(List *listptr, int index, int value)
+int list_insert(List *listptr, int index, int value)
 {
 	Node *prevNode, *currentNode, *newItem;
 
-	if((size_t)index >= sizeofList(listptr)){
-		printf("insertIntoList error: index out of bounds\n");
+	if((size_t)index >= list_sizeof(listptr)){
+		printf("list_insert error: index out of bounds\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -116,17 +116,17 @@ int insertIntoList(List *listptr, int index, int value)
 	return 0;
 }
 
-int getFromList(List *listptr, int index)
+int list_get(List *listptr, int index)
 {
 	Node *currentNode;
 
-	if(sizeofList(listptr) == 0) {
-		printf("getFromList error: list empty");
+	if(list_sizeof(listptr) == 0) {
+		printf("list_get error: list empty");
 		exit(EXIT_FAILURE);
 	}
 
-	if((size_t)index >= sizeofList(listptr)){
-		printf("getFromList error: index out of bounds\n");
+	if((size_t)index >= list_sizeof(listptr)){
+		printf("list_get error: index out of bounds\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -141,17 +141,17 @@ int getFromList(List *listptr, int index)
 	return currentNode->value;
 }
 
-int deleteFromList(List *listptr, int index)
+int list_delete(List *listptr, int index)
 {
 	Node *currentNode, *prevNode;
 
-	if(sizeofList(listptr) == 0) {
-		printf("deleteFromList error: list empty");
+	if(list_sizeof(listptr) == 0) {
+		printf("list_delete error: list empty");
 		exit(EXIT_FAILURE);
 	}
 
-	if((size_t)index >= sizeofList(listptr)){
-		printf("deleteFromList error: index out of bounds\n");
+	if((size_t)index >= list_sizeof(listptr)){
+		printf("list_delete error: index out of bounds\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -167,7 +167,7 @@ int deleteFromList(List *listptr, int index)
 
 	if(i == 0) {
 		listptr->head = currentNode->next;
-	} else if ((size_t)i == sizeofList(listptr) - 1) {
+	} else if ((size_t)i == list_sizeof(listptr) - 1) {
 		listptr->tail = prevNode;
 		listptr->tail->next = NULL;
 	} else {
@@ -179,7 +179,7 @@ int deleteFromList(List *listptr, int index)
 	return 0;
 }
 
-void printList(List *listptr)
+void list_print(List *listptr)
 {
 	Node *traverse = listptr->head;
 	while(traverse != NULL) {
@@ -189,11 +189,11 @@ void printList(List *listptr)
 	printf("\n");
 }
 
-void freeList(List *listptr)
+void list_free(List *listptr)
 {
-	while(sizeofList(listptr) != 0) {
-		printf("free memory holding value %d\n", getFromList(listptr, 0));
-		deleteFromList(listptr, 0);
+	while(list_sizeof(listptr) != 0) {
+		printf("free memory holding value %d\n", list_get(listptr, 0));
+		list_delete(listptr, 0);
 		printf("freed\n");
 	}
 	free(listptr);

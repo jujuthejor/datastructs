@@ -22,23 +22,25 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <stddef.h>
+
 typedef struct node_t Node;
 
 typedef struct list List;
 
-List* initList(void);
+List* list_new(void);
 
-int addToList(List *listptr, int value);
+int list_add(List *listptr, int value);
 
-size_t sizeofList(List *listptr);
+size_t list_sizeof(List *listptr);
 
-int insertIntoList(List *listptr, int index, int value);
+int list_insert(List *listptr, int index, int value);
 
-int deleteFromList(List *listptr, int index);
+int list_delete(List *listptr, int index);
 
-int getFromList(List *listptr, int index);
+int list_get(List *listptr, int index);
 
-void printList(List *listptr);
+void list_print(List *listptr);
 
-void freeList(List *listptr);
+void list_free(List *listptr);
 #endif
