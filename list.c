@@ -28,7 +28,7 @@
 #include "list.h"
 
 struct node_t {
-	int value;
+	void *value;
 	struct node_t *next;
 };
 
@@ -51,7 +51,7 @@ List* list_new(void)
 	return listptr;
 }
 
-int list_add(List *listptr, int value)
+int list_add(List *listptr, void *value)
 {
 	Node *newNode = malloc(sizeof(Node));
 
@@ -76,7 +76,7 @@ size_t list_sizeof(List* listptr){
 	return listptr->size;
 }
 
-int list_insert(List *listptr, int index, int value)
+int list_insert(List *listptr, int index, void *value)
 {
 	Node *prevNode, *currentNode, *newItem;
 
@@ -116,7 +116,7 @@ int list_insert(List *listptr, int index, int value)
 	return 0;
 }
 
-int list_get(List *listptr, int index)
+void* list_get(List *listptr, int index)
 {
 	Node *currentNode;
 
@@ -183,7 +183,7 @@ void list_print(List *listptr)
 {
 	Node *traverse = listptr->head;
 	while(traverse != NULL) {
-		printf("%d\t", traverse->value);
+		printf("%d\t", *((int *)traverse->value));
 		traverse = traverse->next;
 	}
 	printf("\n");
@@ -192,7 +192,7 @@ void list_print(List *listptr)
 void list_free(List *listptr)
 {
 	while(list_sizeof(listptr) != 0) {
-		printf("free memory holding value %d\n", list_get(listptr, 0));
+		printf("free memory holding value %d\n", *((int *)list_get(listptr, 0)));
 		list_delete(listptr, 0);
 		printf("freed\n");
 	}

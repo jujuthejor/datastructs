@@ -30,15 +30,15 @@ typedef struct list List;
 
 List* list_new(void);
 
-int list_add(List *listptr, int value);
+int list_add(List *listptr, void *value);
 
 size_t list_sizeof(List *listptr);
 
-int list_insert(List *listptr, int index, int value);
+int list_insert(List *listptr, int index, void *value);
 
 int list_delete(List *listptr, int index);
 
-int list_get(List *listptr, int index);
+void* list_get(List *listptr, int index);
 
 void list_print(List *listptr);
 

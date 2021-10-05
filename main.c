@@ -94,29 +94,30 @@ void test_list()
 
 	printf("Size of list: %zu\n", list_sizeof(testList));
 
-	list_add(testList, 69);
-	list_add(testList, 420);
-	list_add(testList, 86);
-	list_add(testList, 39);
+	list_add(testList, &(int){69});
+	list_add(testList, &(int){420});
+	list_add(testList, &(int){86});
+	list_add(testList, &(int){39});
 	list_print(testList);
 	printf("Size of list: %zu\n", list_sizeof(testList));
 
-	list_insert(testList, 3, 33);
-	list_insert(testList, 0, 44);
+	list_insert(testList, 3, &(int){33});
+	list_insert(testList, 0, &(int){44});
 	list_print(testList);
 	printf("Size of list: %zu\n", list_sizeof(testList));
 
-	list_insert(testList, 5, 58008);
-	list_insert(testList, 6, 1337);
+	list_insert(testList, 5, &(int){58008});
+	list_insert(testList, 6, &(int){1337});
 	list_print(testList);
 	printf("Size of list: %zu\n", list_sizeof(testList));
 
 	int in_index = 0;
 	do {
 		printf("Enter index (-1 to finish): ");
-		(void) !scanf("%d", &in_index); 															// typecast to void so -Wunused-result won't happen
+		// typecast to void so -Wunused-result won't happen
+		(void) !scanf("%d", &in_index);
 		if(in_index >= 0 && (size_t)in_index < list_sizeof(testList)) {
-			printf("Value at index %d is: %d\n", in_index, list_get(testList, in_index));
+			printf("Value at index %d is: %d\n", in_index, *((int*) list_get(testList, in_index)));
 		} else if (in_index >= (int)list_sizeof(testList)){
 			printf("Please enter a value within the valid range\n");
 		}
