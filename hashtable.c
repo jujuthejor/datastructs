@@ -162,4 +162,9 @@ void* htable_getEntry(HashTable *htable, char key[])
 
 void htable_free(HashTable *htable)
 {
+	for (int i = 0; i < BUCKET_SIZE; i++) {
+		list_free(htable->table[i]);
+	}
+
+	free(htable);
 }
