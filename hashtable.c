@@ -42,7 +42,7 @@ struct h_table {
 static inline int myHash(char key[], size_t size)
 {
 	int hash = 0;
-	for(int i = 0; i != (int) '\0' || i != (int) size; i++) {
+	for(int i = 0; i < STRING_SIZE && i != (int) size; i++) {
 		hash += (int) key[i];
 	}
 
@@ -64,7 +64,7 @@ HashTable* htable_new()
 
 int htable_addEntry(HashTable *htable, char key[], void *value)
 {
-	if (!htable_searchKey(htable, key)) {
+	if (htable_searchKey(htable, key)) {
 		return -1;
 	}
 
