@@ -192,9 +192,7 @@ void list_print(List *listptr)
 void list_free(List *listptr)
 {
 	while(list_sizeof(listptr) != 0) {
-		printf("free memory holding value %d\n", *((int *)list_get(listptr, 0)));
 		list_delete(listptr, 0);
-		printf("freed\n");
 	}
 	free(listptr);
 }
