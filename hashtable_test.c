@@ -36,6 +36,33 @@ int main(void)
 	pInt = (int *)htable_getEntry(int_ht, "oof");
 	printf("Value stored at key \"%s\" is %d\n", "oof", *pInt);
 
+	printf("Searching for \"nice\" key...\n");
+	if (htable_searchKey(int_ht, "nice")) {
+		printf("\"nice\" found.\n");
+	} else {
+		printf("\"nice\" not found.\n");
+	}
+
+	printf("Searching for \"wew\" key...\n");
+	if (htable_searchKey(int_ht, "wew")) {
+		printf("\"wew\" found.\n");
+	} else {
+		printf("\"wew\" not found.\n");
+	}
+
+	printf("Editing value of key \"nice\"...\n");
+	htable_editEntry(int_ht, "nice", &int_values[1]);
+	pInt = (int *)htable_getEntry(int_ht, "nice");
+	printf("Value stored at key \"%s\" is %d\n", "nice", *pInt);
+
+	printf("Deleting key \"oof\"...\n");
+	htable_deleteEntry(int_ht, "oof");
+	if(htable_searchKey(int_ht, "oof")) {
+		printf("\"oof\" is still here!\n");
+	} else {
+		printf("\"oof\" deleted!\n");
+	}
+
 	htable_free(int_ht);
 	return 0;
 }
