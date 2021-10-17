@@ -23,6 +23,9 @@ test: $(TESTS)
 hashtable_test: hashtable_test.o hashtable.o list.o
 	$(CC) $(CFLAGS) -o $@ $^
 
+%_test: %_test.o %.o
+	$(CC) $(CFLAGS) -o $@ $^
+
 main.o: main.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
@@ -30,4 +33,4 @@ main.o: main.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	$(RM) $(BINS) $(TARGET)*
+	$(RM) $(BINS) $(TARGET)* *.exe *_test
